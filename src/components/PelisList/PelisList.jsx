@@ -18,10 +18,10 @@ const PelisList = ({ movies }) => {
         <GridList cellHeight="auto" cols={3} className={classes.gridList} spacing={20}>
         {
           movies.map(movie => {
-              const { poster_path } = movie
+              const { poster_path, id } = movie
             return (
                 <GridListTile key={poster_path} >
-                    <MyCard  src={`https://image.tmdb.org/t/p/w500${poster_path}`} />
+                    <MyCard  src={`https://image.tmdb.org/t/p/w500${poster_path}`} id={id} />
                 </GridListTile>
             )
           })

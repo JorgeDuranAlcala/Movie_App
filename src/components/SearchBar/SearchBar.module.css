@@ -1,0 +1,13 @@
+
+    .root {
+        width: 500px;
+        max-height: auto;
+    }
+
+    .input {
+        background: hsl(0,0, 60);
+    }
+
+    .btn {
+        height: 100%;
+    }

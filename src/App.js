@@ -1,26 +1,22 @@
 import React, { useEffect, useState }from 'react';
 import './App.css';
-import PelisList from './components/PelisList/PelisList';
-import SectionOne from './components/SectionOne/SectionOne';
+import { SectionOne, MovieDetails, PelisList } from './components'
+import { fetchMovieData, searchMovie } from './api';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { TablePagination } from '@material-ui/core';
 
 function App() {
 
     const [movies, setMovies] = useState([])
+    const [input, setInput] = useState('')
 
     useEffect(() => {
 
         const fetchData = async () => {
 
           try {
- 
-            const API_KEY = "c0781656eceec0f77112dad4d0a15de6"
-            const url = `https://api.themoviedb.org/4/list/10?api_key=${API_KEY}`
-            const { results } = await fetch(url, { method: 'get', headers: { "Content-type": "application/json; charset-utf-8" } })
-            .then(res => res.json())
-            .then(data => data)
-
-            setMovies(results)
-            
+            const data = await fetchMovieData()
+            setMovies(data) 
             
           } catch(error) {
             console.log(error)
@@ -29,13 +25,36 @@ function App() {
         
         fetchData()
       }, [])
+
+      const handleChange = async e => {
+
+          const {value} = e.target;
+
+          setInput(value)
+      }
+        
+        const handleSubmit = async e => {
+
+          const data = await searchMovie(input)
+          setMovies(data);
+          console.log(data)
+      }
       
-      console.log(movies)
       
   return (
     <div className="App">
-      <SectionOne/>
-      <PelisList movies={movies}/>
+      <Router>
+        <Switch>
+          <Route path="/" exact>
+            <SectionOne onChange={handleChange} onClick={handleSubmit}/>
+            { movies ? <PelisList movies={movies}/> : "...Cargando"}
+            <TablePagination count={10} page={1}/>
+          </Route>
+          <Route path="/movieDetails/:id">
+              <MovieDetails/>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
