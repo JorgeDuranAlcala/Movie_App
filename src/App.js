@@ -3,7 +3,7 @@ import './App.css';
 import { SectionOne, MovieDetails, PelisList } from './components'
 import { fetchMovieData, searchMovie } from './api';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { TablePagination } from '@material-ui/core';
+import Footer from './components/Footer/Footer';
 
 function App() {
 
@@ -15,7 +15,7 @@ function App() {
         const fetchData = async () => {
 
           try {
-            const data = await fetchMovieData()
+            const data = await fetchMovieData(1)
             setMovies(data) 
             
           } catch(error) {
@@ -31,6 +31,16 @@ function App() {
           const {value} = e.target;
 
           setInput(value)
+      }
+
+      const handlePageChange = async (e, page) => {
+          try {
+            const data = await fetchMovieData(page)
+            setMovies(data) 
+            
+          } catch(error) {
+            console.log(error)
+          }
       }
         
         const handleSubmit = async e => {
@@ -48,7 +58,7 @@ function App() {
           <Route path="/" exact>
             <SectionOne onChange={handleChange} onClick={handleSubmit}/>
             { movies ? <PelisList movies={movies}/> : "...Cargando"}
-            <TablePagination count={10} page={1}/>
+            <Footer onChange={handlePageChange}/>
           </Route>
           <Route path="/movieDetails/:id">
               <MovieDetails/>
