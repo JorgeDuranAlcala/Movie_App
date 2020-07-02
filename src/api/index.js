@@ -4,7 +4,8 @@ const url = `https://api.themoviedb.org`
 
     export const fetchMovieData = async (number) => {
         const { results } = 
-        await fetch(`${url}/4/list/${number}?api_key=${API_KEY}`, { method: 'get', headers: { "Content-type": "application/json; charset-utf-8" } })
+        await fetch(`${url}/3/discover/movie?page=${number}&api_key=${API_KEY}`, 
+        { method: 'get', headers: { "Content-type": "application/json; charset-utf-8" } })
         .then(res => res.json())
         .then(data => data)
 
@@ -35,3 +36,11 @@ const url = `https://api.themoviedb.org`
         return data
     }
 
+    export const getGenres = async () => {
+       const data =  fetch(`${url}/3/genre/movie/list?api_key=${API_KEY}`,
+        { method: 'get', headers: { "Content-type": "application/json; charset-utf-8" } })
+        .then(res => res.json())
+        .then(data => data)
+
+        return data
+    }

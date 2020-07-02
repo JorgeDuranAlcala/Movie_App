@@ -27,7 +27,7 @@ const MyCard = ({ src, id}) => {
             { redir && <Redirect to={`/movieDetails/${id}`} /> }
             <Card className={classes.root} variant="outlined">
                 <CardActionArea>
-                    <CardMedia  component="img" src={src} className={classes.media} onClick={handleClick}/>
+                    <CardMedia  component="img" src={src}  className={classes.media} onClick={handleClick}/>
                 </CardActionArea>
             </Card>
         </>

@@ -1,9 +1,12 @@
 import React, { useEffect, useState }from 'react';
 import './App.css';
-import { SectionOne, MovieDetails, PelisList } from './components'
+import {  
+  MovieDetails,
+  Layout,
+  Main
+  } from './components'
 import { fetchMovieData, searchMovie } from './api';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Footer from './components/Footer/Footer';
 
 function App() {
 
@@ -26,6 +29,7 @@ function App() {
         fetchData()
       }, [])
 
+
       const handleChange = async e => {
 
           const {value} = e.target;
@@ -42,28 +46,36 @@ function App() {
             console.log(error)
           }
       }
+
+      const handleGenres = async (e, id) => {
+          console.log(id)
+      }
         
         const handleSubmit = async e => {
 
           const data = await searchMovie(input)
           setMovies(data);
-          console.log(data)
       }
       
       
   return (
     <div className="App">
       <Router>
-        <Switch>
-          <Route path="/" exact>
-            <SectionOne onChange={handleChange} onClick={handleSubmit}/>
-            { movies ? <PelisList movies={movies}/> : "...Cargando"}
-            <Footer onChange={handlePageChange}/>
-          </Route>
-          <Route path="/movieDetails/:id">
-              <MovieDetails/>
-          </Route>
-        </Switch>
+        <Layout handlePageChange={handlePageChange}>
+          <Switch>
+            <Route path="/" exact>
+                <Main 
+                movies={movies} 
+                handleChange={handleChange} 
+                handleSubmit={handleSubmit} 
+                handleGenres={handleGenres} 
+                />
+            </Route>
+            <Route path="/movieDetails/:id">
+                <MovieDetails/>
+            </Route>
+          </Switch>
+        </Layout>
       </Router>
     </div>
   );
